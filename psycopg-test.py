@@ -10,7 +10,7 @@ def main():
             cursor.execute("SELECT * FROM instructor;")
             with open('test.csv', 'w', newline='\n') as out:
                 csv_out=csv.writer(out)
-                data = [cursor.fetchall()]
+                data = cursor.fetchall()
                 for r in data:
                     csv_out.writerow(r)
 

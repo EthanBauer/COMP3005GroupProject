@@ -17,6 +17,14 @@ directory = r'C:\Users\mengx\Downloads\GithubRepo\open-data\data\matches'
 # copy and execute matches.sql in pgadmin
 # python programInsertMatches.py
 
+# other constants but probably no need to modify
+# seasons interested
+seasons = ["2003/2004", "2020/2021", "2019/2020", "2018/2019"] 
+
+# competitions interested
+comps = [2,11]
+# 2 Premier League  11 La Liga
+
 # Helper function to connect to postgres server
 def connect_db():
     try:
@@ -36,9 +44,6 @@ def connect_db():
         return None
     
 
-# seasons interested
-seasons = ["2003/2004", "2020/2021", "2019/2020", "2018/2019"] 
-
 file_pathes = Path(directory).glob("**/*.json")
 conn = connect_db()
 cursor = conn.cursor()
@@ -48,7 +53,7 @@ for fp in file_pathes:
     with open(fp, 'r', encoding='utf-8') as f:
         data = json.load(f)
         for entry in data:
-            if (entry['competition']['competition_id'] == 11 or entry['competition']['competition_id'] == 2) and entry['season']['season_name'] in seasons:  #2 Premier League  11 La Liga
+            if entry['competition']['competition_id'] in comps and entry['season']['season_name'] in seasons: 
                 # print(entry['match_id'])
                 match_data = {
                     'match_id': entry['match_id'],

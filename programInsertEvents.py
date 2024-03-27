@@ -1,6 +1,6 @@
 import psycopg
-# install
-# pip install "psycopg[binary]" 
+# psycopg 
+# pip install psycopg
 import os
 import json
 from pathlib import Path
@@ -51,6 +51,19 @@ for id in id_list:
     print(fp)
     with open(fp, 'r', encoding='utf-8') as f:
         filecount += 1 
+        data = json.load(f)
+        for entry in data:
+            event_data = {
+                    'id': entry['id'],
+                    'index': entry['index'],
+                    'period': entry['period'],
+                    'timestamp': entry['timestamp'],
+                    'minute': entry['minute'],
+                    'second': entry['second'],
+                    'type_id': entry['type']['id'],
+                    'type_name': entry['type']['name']
+                }
+            # print (event_data)
 
 print(filecount)
 

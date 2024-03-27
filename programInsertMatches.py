@@ -1,4 +1,4 @@
-import psycopg2
+import psycopg
 import json
 from pathlib import Path
 
@@ -29,7 +29,7 @@ comps = [2,11]
 def connect_db():
     try:
         # connect to server with psycopg2
-        connection = psycopg2.connect(
+        connection = psycopg.connect(
             dbname=dbname,
             user=user,
             password=password,
@@ -39,7 +39,7 @@ def connect_db():
         connection.autocommit = True
         return connection
     # catch error and print out 
-    except psycopg2.Error as e:
+    except psycopg.Error as e:
         print("Error connecting to the database:", e)
         return None
     

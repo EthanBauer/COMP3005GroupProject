@@ -6,5 +6,6 @@ CREATE TABLE events (
 	minute VARCHAR(3),
 	second VARCHAR(3),
 	type_id VARCHAR(3),
-	type_name VARCHAR(20)
+	type_name VARCHAR(20),
+	match_id VARCHAR(10)
 )

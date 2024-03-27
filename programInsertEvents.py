@@ -61,7 +61,8 @@ for id in id_list:
                     'minute': entry['minute'],
                     'second': entry['second'],
                     'type_id': entry['type']['id'],
-                    'type_name': entry['type']['name']
+                    'type_name': entry['type']['name'],
+                    'match_id': id
                 }
             # print (event_data)
 

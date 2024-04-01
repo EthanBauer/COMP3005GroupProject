@@ -52,24 +52,91 @@ for id in id_list:
     with open(fp, 'r', encoding='utf-8') as f:
         filecount += 1 
         data = json.load(f)
+        print(id)
         for entry in data:
-            event_data = {
-                    'id': entry['id'],
-                    'index': entry['index'],
-                    'period': entry['period'],
-                    'timestamp': entry['timestamp'],
-                    'minute': entry['minute'],
-                    'second': entry['second'],
-                    'type_id': entry['type']['id'],
-                    'type_name': entry['type']['name'],
-                    'match_id': id
-                }
+            # insert common event data to 'events' table
+            # todo: add more common attributes to event table
             
-            cursor.execute('''
-                        INSERT INTO events (event_id, index, period, timestamp, minute,
-                        second, type_id, type_name, match_id)
-                        VALUES (%(id)s, %(index)s, %(period)s, %(timestamp)s,%(minute)s, %(second)s, %(type_id)s,%(type_name)s, %(match_id)s)
-                    ''', event_data)
+            # event_data = {
+            #         'id': entry['id'],
+            #         'index': entry['index'],
+            #         'period': entry['period'],
+            #         'timestamp': entry['timestamp'],
+            #         'minute': entry['minute'],
+            #         'second': entry['second'],
+            #         'type_id': entry['type']['id'],
+            #         'type_name': entry['type']['name'],
+            #         'match_id': id
+            #     }
+            
+            # cursor.execute('''
+            #             INSERT INTO events (event_id, index, period, timestamp, minute,
+            #             second, type_id, type_name, match_id)
+            #             VALUES (%(id)s, %(index)s, %(period)s, %(timestamp)s,%(minute)s, %(second)s, %(type_id)s,%(type_name)s, %(match_id)s)
+            #         ''', event_data)
+           
+            # todo: add insert commands and table defn for the following events
+
+            # 50-50
+            if entry['type']['id'] == 33:
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'outcome': entry['50_50']['outcome']['name'],
+                    'outcome_id': entry['50_50']['outcome']['id'],
+                    'counterpress': entry.get('counterpress', None)
+                }
+
+            # bad behaviour    
+            elif entry['type']['id'] == 24:    
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'card': entry['bad_behaviour']['card']['name'],
+                    'card_id': entry['bad_behaviour']['card']['id']
+                }
+                # print(secondary_event_data)
+
+            # ball receipt            
+            elif entry['type']['id'] == 42:    
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    # 'outcome': entry.get('ball_receipt')['outcome']['name'] if entry.get('ball_receipt') else None,
+                    # 'outcome_id': entry.get('ball_receipt')['outcome']['id'] if entry.get('ball_receipt') else None,
+                    'incomplete': True if entry.get('ball_receipt') else False
+                }
+                # print(secondary_event_data) 
+
+            # ball recover    
+            elif entry['type']['id'] == 2:   
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'recovery_failure': True if entry.get('ball_recovery') and 'recovery_failure' in entry.get('ball_recovery') else False,
+                    'offensive': True if entry.get('ball_recovery') and 'offensive' in entry.get('ball_recovery') else False,
+                }
+
+            # block
+            elif entry['type']['id'] == 6:   
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'deflection': True if entry.get('block') and 'deflection' in entry.get('block') else False,
+                    'offensive': True if entry.get('block') and 'offensive' in entry.get('block') else False,
+                    'save_block': True if entry.get('block') and 'save_block' in entry.get('block') else False,
+                    'counterpass': True if entry.get('block') and 'counterpass' in entry.get('block') else False,
+                }
+                # if entry.get('block'):
+                #     print(secondary_event_data)
+                
+            
+
+
+
 
 print(filecount)
 

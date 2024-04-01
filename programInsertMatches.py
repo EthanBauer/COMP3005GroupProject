@@ -73,7 +73,7 @@ for fp in file_pathes:
                     'last_updated_360': entry['last_updated_360'],
                     'match_week': entry['match_week'],
                     'competition_stage_id': entry['competition_stage']['id'],
-                    'stadium_id': entry.get('stadium', {}).get('id'), # there are entries without stadium indo
+                    'stadium_id': entry.get('stadium', {}).get('id'), # there are entries without stadium info
                     'referee_id': entry.get('referee', {}).get('id') #entry['referee']['id'] not work bc there are entries without referee
                 }
 

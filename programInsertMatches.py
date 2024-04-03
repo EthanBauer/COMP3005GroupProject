@@ -60,6 +60,7 @@ for fp in file_pathes:
                     'match_date': entry['match_date'],
                     'kick_off': entry['kick_off'],
                     'competition_id': entry['competition']['competition_id'],
+                    'season': entry['season']['season_name'],
                     'season_id': entry['season']['season_id'],
                     'home_team_id': entry['home_team']['home_team_id'],
                     'home_manager_id': entry['home_team'].get('managers')[0]['id'] if entry['home_team'].get('managers') else None, # there are entries without managers all matches interest have at most 1 manager
@@ -78,12 +79,12 @@ for fp in file_pathes:
                 }
 
                 cursor.execute('''
-                        INSERT INTO matches (match_id, match_date, kick_off, competition_id, season_id,
+                        INSERT INTO matches (match_id, match_date, kick_off, competition_id, season, season_id,
                         home_team_id, home_manager_id, away_team_id, away_manager_id,
                         home_score, away_score, match_status, match_status_360,
                         last_updated, last_updated_360, match_week, competition_stage_id,
                         stadium_id, referee_id)
-                        VALUES (%(match_id)s, %(match_date)s, %(kick_off)s, %(competition_id)s, %(season_id)s,
+                        VALUES (%(match_id)s, %(match_date)s, %(kick_off)s, %(competition_id)s, %(season)s, %(season_id)s,
                         %(home_team_id)s, %(home_manager_id)s, %(away_team_id)s, %(away_manager_id)s,
                         %(home_score)s, %(away_score)s, %(match_status)s, %(match_status_360)s,
                         %(last_updated)s, %(last_updated_360)s, %(match_week)s, %(competition_stage_id)s,

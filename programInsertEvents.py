@@ -130,9 +130,24 @@ for id in id_list:
                     'save_block': True if entry.get('block') and 'save_block' in entry.get('block') else False,
                     'counterpass': True if entry.get('block') and 'counterpass' in entry.get('block') else False,
                 }
-                # if entry.get('block'):
-                #     print(secondary_event_data)
+                # print(secondary_event_data)
                 
+            # pass 
+            elif entry['type']['id'] == 30:
+                print(id)
+                print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'recipient': entry['pass']['recipient']['name'] if entry['pass'].get('recipient') else None,
+                    'recipient_id': entry['pass']['recipient']['id'] if entry['pass'].get('recipient') else None,
+                    'type': entry.get('pass')['type']['name'] if entry['pass'].get('type') else None,
+                    'type_id': entry.get('pass')['type']['id'] if entry['pass'].get('type') else None,
+                    'end_loc_x': entry['pass']['end_location'][0],
+                    'end_loc_y': entry['pass']['end_location'][1],
+                    'outcome': entry['pass']['outcome']['name'] if entry['pass'].get('outcome') else None,
+                    'outcome_id': entry['pass']['outcome']['id'] if entry['pass'].get('outcome') else None,
+                }
+                # print(secondary_event_data)
             
 
 

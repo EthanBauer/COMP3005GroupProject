@@ -1,8 +1,9 @@
 CREATE TABLE IF NOT EXISTS matches (
-    match_id INTEGER PRIMARY KEY,
+    match_id VARCHAR(10) PRIMARY KEY,
     match_date DATE,
     kick_off TIME,
     competition_id INTEGER,
+    season VARCHAR(20),
     season_id INTEGER,
     home_team_id INTEGER,
     home_manager_id INTEGER,

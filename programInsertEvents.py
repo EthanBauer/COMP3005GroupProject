@@ -146,16 +146,19 @@ for id in id_list:
                     'recipient_id': entry['pass']['recipient']['id'] if entry['pass'].get('recipient') else None,
                     'type': entry.get('pass')['type']['name'] if entry['pass'].get('type') else None, # optional
                     'type_id': entry.get('pass')['type']['id'] if entry['pass'].get('type') else None,
+                    'technique': entry.get('pass')['technique']['name'] if entry['pass'].get('technique') else None,
+                    'technique_id': entry.get('pass')['technique']['id'] if entry['pass'].get('technique') else None,
                     'end_loc_x': entry['pass']['end_location'][0],
                     'end_loc_y': entry['pass']['end_location'][1],
                     'outcome': entry['pass']['outcome']['name'] if entry['pass'].get('outcome') else None, # optional
                     'outcome_id': entry['pass']['outcome']['id'] if entry['pass'].get('outcome') else None,
                 }
-                print(secondary_event_data)
+                # if (secondary_event_data['technique_id'] == 108):
+                #     print(secondary_event_data)
                 cursor.execute('''
-                        INSERT INTO pass_events (event_id, team, team_id, player, player_id, recipient, recipient_id, type, type_id, end_loc_x,
+                        INSERT INTO pass_events (event_id, team, team_id, player, player_id, recipient, recipient_id, type, type_id, technique, technique_id, end_loc_x,
                         end_loc_y, outcome_id, outcome)
-                        VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s, %(recipient)s, %(recipient_id)s, %(type)s, %(type_id)s, %(end_loc_x)s, %(end_loc_y)s, %(outcome_id)s, %(outcome)s)
+                        VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s, %(recipient)s, %(recipient_id)s, %(type)s, %(type_id)s, %(technique)s, %(technique_id)s, %(end_loc_x)s, %(end_loc_y)s, %(outcome_id)s, %(outcome)s)
                     ''', secondary_event_data)            
             
 

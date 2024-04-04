@@ -1,4 +1,4 @@
-CREATE TABLE events (
+CREATE TABLE IF NOT EXISTS events (
 	event_id VARCHAR(50) PRIMARY KEY,
 	index SMALLINT,
 	period SMALLINT,

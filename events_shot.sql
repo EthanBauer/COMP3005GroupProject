@@ -1,4 +1,4 @@
-CREATE TABLE events_shot (
+CREATE TABLE IF NOT EXISTS events_shot (
 	event_id VARCHAR(50) PRIMARY KEY,
 	team VARCHAR(40),
 	team_id SMALLINT,

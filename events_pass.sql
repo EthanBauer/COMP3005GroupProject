@@ -1,4 +1,4 @@
-CREATE TABLE pass_events (
+CREATE TABLE events_pass (
 	event_id VARCHAR(50) PRIMARY KEY,
 	team VARCHAR(40),
 	team_id SMALLINT,

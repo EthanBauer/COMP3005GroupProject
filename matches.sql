@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS matches (
     match_date DATE,
     kick_off TIME,
     competition_id INTEGER,
+    competition VARCHAR(20),
     season VARCHAR(20),
     season_id INTEGER,
     home_team_id INTEGER,

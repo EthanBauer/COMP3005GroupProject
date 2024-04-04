@@ -153,15 +153,31 @@ for id in id_list:
                     'outcome': entry['pass']['outcome']['name'] if entry['pass'].get('outcome') else None, # optional
                     'outcome_id': entry['pass']['outcome']['id'] if entry['pass'].get('outcome') else None,
                 }
-                # if (secondary_event_data['technique_id'] == 108):
-                #     print(secondary_event_data)
-                cursor.execute('''
-                        INSERT INTO pass_events (event_id, team, team_id, player, player_id, recipient, recipient_id, type, type_id, technique, technique_id, end_loc_x,
-                        end_loc_y, outcome_id, outcome)
-                        VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s, %(recipient)s, %(recipient_id)s, %(type)s, %(type_id)s, %(technique)s, %(technique_id)s, %(end_loc_x)s, %(end_loc_y)s, %(outcome_id)s, %(outcome)s)
-                    ''', secondary_event_data)            
-            
 
+                # cursor.execute('''
+                #         INSERT INTO events_pass (event_id, team, team_id, player, player_id, recipient, recipient_id, type, type_id, technique, technique_id, end_loc_x,
+                #         end_loc_y, outcome_id, outcome)
+                #         VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s, %(recipient)s, %(recipient_id)s, %(type)s, %(type_id)s, %(technique)s, %(technique_id)s, %(end_loc_x)s, %(end_loc_y)s, %(outcome_id)s, %(outcome)s)
+                #     ''', secondary_event_data)            
+            
+            # shot
+            elif entry['type']['id'] == 16:
+                # print(id)
+                # print(entry['id'])
+
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'xg_score': entry['shot']['statsbomb_xg']
+                }
+
+                cursor.execute('''
+                        INSERT INTO events_shot (event_id, team, team_id, player, player_id, xg_score)
+                        VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s, %(xg_score)s)
+                    ''', secondary_event_data) 
 
 
 

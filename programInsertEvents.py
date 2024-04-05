@@ -69,11 +69,11 @@ for id in id_list:
                     'match_id': id
                 }
             
-            cursor.execute('''
-                        INSERT INTO events (event_id, index, period, timestamp, minute,
-                        second, type_id, type_name, match_id)
-                        VALUES (%(id)s, %(index)s, %(period)s, %(timestamp)s,%(minute)s, %(second)s, %(type_id)s,%(type_name)s, %(match_id)s)
-                    ''', event_data)
+            # cursor.execute('''
+            #             INSERT INTO events (event_id, index, period, timestamp, minute,
+            #             second, type_id, type_name, match_id)
+            #             VALUES (%(id)s, %(index)s, %(period)s, %(timestamp)s,%(minute)s, %(second)s, %(type_id)s,%(type_name)s, %(match_id)s)
+            #         ''', event_data)
            
             # todo: add insert commands and table defn for the following events
 
@@ -154,11 +154,11 @@ for id in id_list:
                     'outcome_id': entry['pass']['outcome']['id'] if entry['pass'].get('outcome') else None,
                 }
 
-                cursor.execute('''
-                        INSERT INTO events_pass (event_id, team, team_id, player, player_id, recipient, recipient_id, type, type_id, technique, technique_id, end_loc_x,
-                        end_loc_y, outcome_id, outcome)
-                        VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s, %(recipient)s, %(recipient_id)s, %(type)s, %(type_id)s, %(technique)s, %(technique_id)s, %(end_loc_x)s, %(end_loc_y)s, %(outcome_id)s, %(outcome)s)
-                    ''', secondary_event_data)            
+                # cursor.execute('''
+                #         INSERT INTO events_pass (event_id, team, team_id, player, player_id, recipient, recipient_id, type, type_id, technique, technique_id, end_loc_x,
+                #         end_loc_y, outcome_id, outcome)
+                #         VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s, %(recipient)s, %(recipient_id)s, %(type)s, %(type_id)s, %(technique)s, %(technique_id)s, %(end_loc_x)s, %(end_loc_y)s, %(outcome_id)s, %(outcome)s)
+                #     ''', secondary_event_data)            
             
             # shot
             elif entry['type']['id'] == 16:
@@ -171,12 +171,13 @@ for id in id_list:
                     'team' : entry['team']['name'],
                     'player': entry['player']['name'],
                     'player_id': entry['player']['id'],
-                    'xg_score': entry['shot']['statsbomb_xg']
+                    'xg_score': entry['shot']['statsbomb_xg'],
+                    'first_time': entry['shot']['first_time'] if entry['shot'].get('first_time') else False
                 }
 
                 cursor.execute('''
-                        INSERT INTO events_shot (event_id, team, team_id, player, player_id, xg_score)
-                        VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s, %(xg_score)s)
+                        INSERT INTO events_shot (event_id, team, team_id, player, player_id, xg_score, first_time)
+                        VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s, %(xg_score)s, %(first_time)s)
                     ''', secondary_event_data) 
 
 

@@ -128,7 +128,7 @@ for id in id_list:
                     'deflection': True if entry.get('block') and 'deflection' in entry.get('block') else False,
                     'offensive': True if entry.get('block') and 'offensive' in entry.get('block') else False,
                     'save_block': True if entry.get('block') and 'save_block' in entry.get('block') else False,
-                    'counterpass': True if entry.get('block') and 'counterpass' in entry.get('block') else False,
+                    'counterpress': True if entry.get('block') and 'counterpress' in entry.get('block') else False,
                 }
                 # print(secondary_event_data)
                 
@@ -197,13 +197,31 @@ for id in id_list:
                     'no_touch': True if entry['dribble'].get('no_touch') else False
                 }
 
-                cursor.execute('''
-                        INSERT INTO events_dribble (event_id, team, team_id, player, player_id, complete, no_touch, nutmeg, overrun)
-                        VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s, %(complete)s, %(no_touch)s, %(nutmeg)s, %(overrun)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_dribble (event_id, team, team_id, player, player_id, complete, no_touch, nutmeg, overrun)
+                #         VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s, %(complete)s, %(no_touch)s, %(nutmeg)s, %(overrun)s)
+                #     ''', secondary_event_data) 
         
 
+            # dribbled_pass
+            elif entry['type']['id'] == 39:
+                # print(id)
+                # print(entry['id'])
 
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    # seems like events interested have counterpress false
+                    # 'counterpress': True if entry.get('dribbledpass') and 'counterpress' in entry.get('dribbled_pass') else False,
+                }
+
+                cursor.execute('''
+                        INSERT INTO events_dribbledpass (event_id, team, team_id, player, player_id)
+                        VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s)
+                    ''', secondary_event_data) 
 
 print(filecount)
 

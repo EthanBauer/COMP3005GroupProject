@@ -175,10 +175,33 @@ for id in id_list:
                     'first_time': entry['shot']['first_time'] if entry['shot'].get('first_time') else False
                 }
 
+                # cursor.execute('''
+                #         INSERT INTO events_shot (event_id, team, team_id, player, player_id, xg_score, first_time)
+                #         VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s, %(xg_score)s, %(first_time)s)
+                #     ''', secondary_event_data) 
+
+            # dribble
+            elif entry['type']['id'] == 14:
+                # print(id)
+                # print(entry['id'])
+
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'complete': True if entry['dribble']['outcome']['name']== 'Complete' else False,
+                    'overrun': True if entry['dribble'].get('overrun') else False,
+                    'nutmeg': True if entry['dribble'].get('nutmeg') else False,
+                    'no_touch': True if entry['dribble'].get('no_touch') else False
+                }
+
                 cursor.execute('''
-                        INSERT INTO events_shot (event_id, team, team_id, player, player_id, xg_score, first_time)
-                        VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s, %(xg_score)s, %(first_time)s)
+                        INSERT INTO events_dribble (event_id, team, team_id, player, player_id, complete, no_touch, nutmeg, overrun)
+                        VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s, %(complete)s, %(no_touch)s, %(nutmeg)s, %(overrun)s)
                     ''', secondary_event_data) 
+        
 
 
 

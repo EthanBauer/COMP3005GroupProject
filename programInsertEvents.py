@@ -75,16 +75,24 @@ for id in id_list:
             #             VALUES (%(id)s, %(index)s, %(period)s, %(timestamp)s,%(minute)s, %(second)s, %(type_id)s,%(type_name)s, %(match_id)s)
             #         ''', event_data)
            
-            # todo: add insert commands and table defn for the following events
 
             # 50-50
             if entry['type']['id'] == 33:
                 secondary_event_data = {
                     'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
                     'outcome': entry['50_50']['outcome']['name'],
                     'outcome_id': entry['50_50']['outcome']['id'],
                     'counterpress': entry.get('counterpress', None)
                 }
+                # cursor.execute('''
+                #         INSERT INTO events_5050 (event_id, team, team_id, player, player_id,
+                #         outcome, outcome_id, counterpress)
+                #         VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s,%(player_id)s, %(outcome)s, %(outcome_id)s,%(counterpress)s)
+                #     ''', secondary_event_data)
 
             # bad behaviour    
             elif entry['type']['id'] == 24:    
@@ -92,10 +100,18 @@ for id in id_list:
                 # print(entry['id'])
                 secondary_event_data = {
                     'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
                     'card': entry['bad_behaviour']['card']['name'],
                     'card_id': entry['bad_behaviour']['card']['id']
                 }
-                # print(secondary_event_data)
+                # cursor.execute('''
+                #         INSERT INTO events_badbehaviour (event_id, team, team_id, player, player_id,
+                #         card, card_id)
+                #         VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s,%(player_id)s, %(card)s, %(card_id)s)
+                #     ''', secondary_event_data)
 
             # ball receipt            
             elif entry['type']['id'] == 42:    
@@ -103,12 +119,20 @@ for id in id_list:
                 # print(entry['id'])
                 secondary_event_data = {
                     'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'incomplete': True if entry.get('ball_receipt') else False
                     # 'outcome': entry.get('ball_receipt')['outcome']['name'] if entry.get('ball_receipt') else None,
                     # 'outcome_id': entry.get('ball_receipt')['outcome']['id'] if entry.get('ball_receipt') else None,
-                    'incomplete': True if entry.get('ball_receipt') else False
                 }
-                # print(secondary_event_data) 
-
+                cursor.execute('''
+                        INSERT INTO events_ballreceipt (event_id, team, team_id, player, player_id,
+                        incomplete)
+                        VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s,%(player_id)s, %(incomplete)s)
+                    ''', secondary_event_data)
+                
             # ball recover    
             elif entry['type']['id'] == 2:   
                 # print(id)
@@ -132,6 +156,244 @@ for id in id_list:
                 }
                 # print(secondary_event_data)
                 
+            # carry 
+            elif entry['type']['id'] == 43:
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'end_loc_x': entry['carry']['end_location'][0],
+                    'end_loc_y': entry['carry']['end_location'][1]
+                }
+                # print(secondary_event_data)
+                # print(entry)
+
+            # clearance
+            elif entry['type']['id'] == 9:
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'aerial_won': True if entry['clearance'].get('aerial_won') else False,
+                    'head' : True if entry['clearance'].get('head') else False, 
+                    'left_foot' : True if entry['clearance'].get('left_foot') else False, 
+                    'right_foot' : True if entry['clearance'].get('right_foot') else False, 
+                    'other' : True if entry['clearance'].get('other') else False, 
+                }
+            # Duel 
+            elif entry['type']['id'] == 4:
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'type': entry['duel']['type']['name'],
+                    'type_id': entry['duel']['type']['id'],
+                    'outcome': entry['duel']['outcome']['name'] if entry.get('duel').get('outcome') else None,
+                    'outcome_id': entry['duel']['outcome']['id'] if entry.get('duel').get('outcome') else None
+                }
+
+            # Foul Committed  22
+            elif entry['type']['id'] == 22:
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'counterpress': True if entry.get('foul_committed') and 'counterpress' in entry.get('foul_committed') else False,
+                    'offensive': True if entry.get('foul_committed') and 'offensive' in entry.get('foul_committed') else False,
+                    'advantage': True if entry.get('foul_committed') and 'advantage' in entry.get('foul_committed') else False,
+                    'penalty': True if entry.get('foul_committed') and 'penalty' in entry.get('foul_committed') else False,
+                    'type': entry['foul_committed']['type']['name'] if entry.get('foul_committed') and entry.get('foul_committed').get('type') else None,
+                    'type_id': entry['foul_committed']['type']['id'] if entry.get('foul_committed') and entry.get('foul_committed').get('type') else None,
+                    'card': entry['foul_committed']['card']['name'] if entry.get('foul_committed') and entry.get('foul_committed').get('card') else None,
+                    'card_id': entry['foul_committed']['card']['id'] if entry.get('foul_committed') and entry.get('foul_committed').get('card') else None,
+                }
+                # if secondary_event_data['offensive']:
+                #     print(secondary_event_data)
+                #     print(entry)
+
+            # Foul Won  21
+            elif entry['type']['id'] == 21:
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'defensive': True if entry.get('foul_won') and 'defensive' in entry.get('foul_won') else False,
+                    'advantage': True if entry.get('foul_won') and 'advantage' in entry.get('foul_won') else False,
+                    'penalty': True if entry.get('foul_won') and 'penalty' in entry.get('foul_won') else False
+                }
+            
+            # Goalkeeper  23
+            elif entry['type']['id'] == 23:
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+
+                    'position': entry['goalkeeper']['position']['name'] if entry['goalkeeper'].get('position') else None,
+                    'position_id': entry['goalkeeper']['position']['id'] if entry['goalkeeper'].get('position') else None,
+
+                    'technique': entry['goalkeeper']['technique']['name'] if entry['goalkeeper'].get('technique') else None,
+                    'technique_id': entry['goalkeeper']['technique']['id'] if entry['goalkeeper'].get('technique') else None,
+
+                    'body_part': entry['goalkeeper']['body_part']['name'] if entry['goalkeeper'].get('body_part') else None,
+                    'body_part_id': entry['goalkeeper']['body_part']['id'] if entry['goalkeeper'].get('body_part') else None,
+
+                    'type': entry['goalkeeper']['type']['name'] if entry['goalkeeper'].get('type') else None,
+                    'type_id': entry['goalkeeper']['type']['id'] if entry['goalkeeper'].get('type') else None,
+
+                    'outcome': entry['goalkeeper']['outcome']['name'] if entry['goalkeeper'].get('outcome') else None,
+                    'outcome_id': entry['goalkeeper']['outcome']['id'] if entry['goalkeeper'].get('outcome') else None,
+                }
+                # if secondary_event_data['type']:
+                #     print(secondary_event_data)
+                    # print(entry)
+
+            # Half End  34
+            elif entry['type']['id'] == 34:
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'match_suspended': True if entry.get('half_end') and 'match_suspended' in entry.get('half_end') else False,
+                    'early_video_end': True if entry.get('half_end') and 'early_video_end' in entry.get('half_end') else False,
+                }
+                # early_video_end and early_video_end all false???
+
+            # Half Start  18
+            elif entry['type']['id'] == 18:
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'late_video_start': True if entry.get('half_start') and 'late_video_start' in entry.get('half_start') else False
+                }
+
+            # Injury Stoppage 40
+            elif entry['type']['id'] == 40:
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'in_chain': True if entry.get('injury_stoppage') and 'in_chain' in entry.get('injury_stoppage') else False,
+                }
+                # if secondary_event_data['in_chain']:
+                #     print(secondary_event_data)
+                #     print(entry)   
+
+            # Interception  10
+            elif entry['type']['id'] == 10:
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'outcome': entry['interception']['outcome']['name'] if entry['interception'].get('outcome') else None, # optional
+                    'outcome_id': entry['interception']['outcome']['id'] if entry['interception'].get('outcome') else None,
+                }
+                # if secondary_event_data['outcome']:
+                #     print(secondary_event_data)
+                #     # print(entry)   
+
+            # Miscontrol  38
+            elif entry['type']['id'] == 38:
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'aerial_won': True if entry.get('miscontrol') and 'aerial_won' in entry.get('miscontrol') else False,
+                }
+
+            # player off  27 permanent all false
+            elif entry['type']['id'] == 27:
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'permanent': True if entry.get('player_off') and 'permanent' in entry.get('player_off') else False,
+                }
+                # if secondary_event_data['permanent']:
+                #     print(secondary_event_data)
+                #     print(entry)   
+
+            # nothing special should add more attributes to the main event ???
+            # player on  26
+            # shield 28
+
+
+            # pressure 17  counterpress all false
+            elif entry['type']['id'] == 17:
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'counterpress': True if entry.get('pressure') and 'counterpress' in entry.get('pressure') else False,
+                }
+                # if secondary_event_data['counterpress']:
+                #     print(secondary_event_data)
+                #     print(entry)   
+
+            # substitution 19
+            elif entry['type']['id'] == 19:
+                # print(id)
+                # print(entry['id'])
+                secondary_event_data = {
+                    'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'replacement': entry['substitution']['replacement']['name'] if entry['substitution'].get('replacement') else None,
+                    'replacement_id': entry['substitution']['replacement']['id'] if entry['substitution'].get('replacement') else None,
+                    'outcome': entry['substitution']['outcome']['name'] if entry['substitution'].get('outcome') else None,
+                    'outcome_id': entry['substitution']['outcome']['id'] if entry['substitution'].get('outcome') else None,
+                }
+                # print(secondary_event_data)
+
             # pass 
             elif entry['type']['id'] == 30:
                 # print(id)
@@ -215,13 +477,16 @@ for id in id_list:
                     'player': entry['player']['name'],
                     'player_id': entry['player']['id'],
                     # seems like events interested have counterpress false
-                    # 'counterpress': True if entry.get('dribbledpass') and 'counterpress' in entry.get('dribbled_pass') else False,
+                    'counterpress': True if entry.get('dribbled_pass') and 'counterpress' in entry.get('dribbled_pass') else False,
                 }
 
-                cursor.execute('''
-                        INSERT INTO events_dribbledpass (event_id, team, team_id, player, player_id)
-                        VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s)
-                    ''', secondary_event_data) 
+                # if (secondary_event_data['counterpress']):
+                #     print(secondary_event_data)
+
+                # cursor.execute('''
+                #         INSERT INTO events_dribbledpass (event_id, team, team_id, player, player_id)
+                #         VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s, %(player_id)s)
+                #     ''', secondary_event_data) 
 
 print(filecount)
 

@@ -1,5 +1,9 @@
 CREATE TABLE IF NOT EXISTS events (
 	event_id VARCHAR(50) PRIMARY KEY,
+	team VARCHAR(40),
+	team_id SMALLINT,
+	player VARCHAR(60),
+	player_id INT,
 	index SMALLINT,
 	period SMALLINT,
 	timestamp VARCHAR(16),

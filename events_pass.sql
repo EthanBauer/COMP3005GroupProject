@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS events_pass (
 	event_id VARCHAR(50) PRIMARY KEY,
-	team VARCHAR(40),
-	team_id SMALLINT,
-	player VARCHAR(60),
-	player_id INT,
+	-- team VARCHAR(40),
+	-- team_id SMALLINT,
+	-- player VARCHAR(60),
+	-- player_id INT,
 	recipient VARCHAR(60),
 	recipient_id INT,
 	type VARCHAR(16),

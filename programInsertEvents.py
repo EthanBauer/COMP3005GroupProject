@@ -75,16 +75,24 @@ for id in id_list:
             #             VALUES (%(id)s, %(index)s, %(period)s, %(timestamp)s,%(minute)s, %(second)s, %(type_id)s,%(type_name)s, %(match_id)s)
             #         ''', event_data)
            
-            # todo: add insert commands and table defn for the following events
 
             # 50-50
             if entry['type']['id'] == 33:
                 secondary_event_data = {
                     'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
                     'outcome': entry['50_50']['outcome']['name'],
                     'outcome_id': entry['50_50']['outcome']['id'],
                     'counterpress': entry.get('counterpress', None)
                 }
+                # cursor.execute('''
+                #         INSERT INTO events_5050 (event_id, team, team_id, player, player_id,
+                #         outcome, outcome_id, counterpress)
+                #         VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s,%(player_id)s, %(outcome)s, %(outcome_id)s,%(counterpress)s)
+                #     ''', secondary_event_data)
 
             # bad behaviour    
             elif entry['type']['id'] == 24:    
@@ -92,10 +100,18 @@ for id in id_list:
                 # print(entry['id'])
                 secondary_event_data = {
                     'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
                     'card': entry['bad_behaviour']['card']['name'],
                     'card_id': entry['bad_behaviour']['card']['id']
                 }
-                # print(secondary_event_data)
+                # cursor.execute('''
+                #         INSERT INTO events_badbehaviour (event_id, team, team_id, player, player_id,
+                #         card, card_id)
+                #         VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s,%(player_id)s, %(card)s, %(card_id)s)
+                #     ''', secondary_event_data)
 
             # ball receipt            
             elif entry['type']['id'] == 42:    
@@ -103,12 +119,20 @@ for id in id_list:
                 # print(entry['id'])
                 secondary_event_data = {
                     'uid': entry['id'],
+                    'team_id' : entry['team']['id'],
+                    'team' : entry['team']['name'],
+                    'player': entry['player']['name'],
+                    'player_id': entry['player']['id'],
+                    'incomplete': True if entry.get('ball_receipt') else False
                     # 'outcome': entry.get('ball_receipt')['outcome']['name'] if entry.get('ball_receipt') else None,
                     # 'outcome_id': entry.get('ball_receipt')['outcome']['id'] if entry.get('ball_receipt') else None,
-                    'incomplete': True if entry.get('ball_receipt') else False
                 }
-                # print(secondary_event_data) 
-
+                cursor.execute('''
+                        INSERT INTO events_ballreceipt (event_id, team, team_id, player, player_id,
+                        incomplete)
+                        VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s,%(player_id)s, %(incomplete)s)
+                    ''', secondary_event_data)
+                
             # ball recover    
             elif entry['type']['id'] == 2:   
                 # print(id)

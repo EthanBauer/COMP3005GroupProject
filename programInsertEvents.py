@@ -486,11 +486,12 @@ for id in id_list:
                     # 'player_id': entry['player']['id'],
                     'xg_score': entry['shot']['statsbomb_xg'],
                     'first_time': entry['shot']['first_time'] if entry['shot'].get('first_time') else False
+                    'end_location': entry['shot']['end_location'] if entry['shot'].get('end_location') else False
                 }
 
                 # cursor.execute('''
-                #         INSERT INTO events_shot (event_id, xg_score, first_time)
-                #         VALUES (%(uid)s, %(xg_score)s, %(first_time)s)
+                #         INSERT INTO events_shot (event_id, xg_score, first_time, end_location)
+                #         VALUES (%(uid)s, %(xg_score)s, %(first_time)s, %(end_location)s)
                 #     ''', secondary_event_data) 
 
             # dribble

@@ -129,14 +129,13 @@ for id in id_list:
                     # 'player': entry['player']['name'],
                     # 'player_id': entry['player']['id'],
                     # 'incomplete': True if entry.get('ball_receipt') else False
-                    # to do 
                     'outcome': entry.get('ball_receipt')['outcome']['name'] if entry.get('ball_receipt') else None,
                     'outcome_id': entry.get('ball_receipt')['outcome']['id'] if entry.get('ball_receipt') else None,
                 }
-                cursor.execute('''
-                        INSERT INTO events_ballreceipt (event_id, outcome, outcome_id)
-                        VALUES (%(uid)s, %(outcome)s, %(outcome_id)s)
-                    ''', secondary_event_data)
+                # cursor.execute('''
+                #         INSERT INTO events_ballreceipt (event_id, outcome, outcome_id)
+                #         VALUES (%(uid)s, %(outcome)s, %(outcome_id)s)
+                #     ''', secondary_event_data)
                 
             # ball recover    
             elif entry['type']['id'] == 2:   
@@ -306,12 +305,12 @@ for id in id_list:
             elif entry['type']['id'] == 34:
                 secondary_event_data = {
                     'uid': entry['id'],
-                    # 'team_id' : entry['team']['id'],
-                    # 'team' : entry['team']['name'],
+                    # indeed the following two are all false 
                     'match_suspended': True if entry.get('half_end') and 'match_suspended' in entry.get('half_end') else False,
                     'early_video_end': True if entry.get('half_end') and 'early_video_end' in entry.get('half_end') else False,
+                    # 'match_suspended2': True if entry.get('match_suspended') else False,
+                    # 'early_video_end2': True if entry.get('early_video_end') else False,
                 }
-                # early_video_end and early_video_end all false???
                 # cursor.execute('''
                 #         INSERT INTO events_halfend (event_id, match_suspended, early_video_end)
                 #         VALUES (%(uid)s, %(match_suspended)s,  %(early_video_end)s)
@@ -396,19 +395,20 @@ for id in id_list:
                     # 'team' : entry['team']['name'],
                     # 'player': entry['player']['name'],
                     # 'player_id': entry['player']['id'],
+                    # 'permanent2': True if entry.get('permanent') else False,
                     'permanent': True if entry.get('player_off') and 'permanent' in entry.get('player_off') else False,
                 }
+                
                 # cursor.execute('''
                 #         INSERT INTO events_playeroff (event_id, permanent)
                 #         VALUES (%(uid)s, %(permanent)s)
                 #     ''', secondary_event_data) 
 
-            # nothing special should add more attributes to the main event ???
+            # todo nothing special should add more attributes to the main event
             # player on  26
             # shield 28
 
-
-            # pressure 17  counterpress all false ???
+            # pressure 17  
             elif entry['type']['id'] == 17:
                 # print(id)
                 # print(entry['id'])
@@ -418,7 +418,7 @@ for id in id_list:
                     # 'team' : entry['team']['name'],
                     # 'player': entry['player']['name'],
                     # 'player_id': entry['player']['id'],
-                    'counterpress': True if entry.get('pressure') and 'counterpress' in entry.get('pressure') else False,
+                    'counterpress': True if entry.get('counterpress') else False
                 }
                 # cursor.execute('''
                 #         INSERT INTO events_pressure (event_id, counterpress)

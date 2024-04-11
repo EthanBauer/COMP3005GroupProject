@@ -6,10 +6,10 @@ import json
 from pathlib import Path
 
 # Define connection parameters
-dbname = 'Project1'
+dbname = 'projecttest'
 user = 'postgres'
-password = 'Hannah14!'
-host = 'localhost'  
+password = 'postgres'
+host = '127.0.0.1'  
 port = '5432'  
 
 # Helper function to connect to postgres server

@@ -485,7 +485,7 @@ for id in id_list:
                     # 'player': entry['player']['name'],
                     # 'player_id': entry['player']['id'],
                     'xg_score': entry['shot']['statsbomb_xg'],
-                    'first_time': entry['shot']['first_time'] if entry['shot'].get('first_time') else False
+                    'first_time': entry['shot']['first_time'] if entry['shot'].get('first_time') else False,
                     'end_location': entry['shot']['end_location'] if entry['shot'].get('end_location') else None
                 }
 

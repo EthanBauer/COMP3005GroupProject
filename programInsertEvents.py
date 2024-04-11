@@ -95,9 +95,9 @@ for id in id_list:
                     'counterpress': entry.get('counterpress', None)
                 }
                 # cursor.execute('''
-                #         INSERT INTO events_5050 (event_id, team, team_id, player, player_id,
+                #         INSERT INTO events_5050 (event_id,
                 #         outcome, outcome_id, counterpress)
-                #         VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s,%(player_id)s, %(outcome)s, %(outcome_id)s,%(counterpress)s)
+                #         VALUES (%(uid)s, %(outcome)s, %(outcome_id)s,%(counterpress)s)
                 #     ''', secondary_event_data)
 
             # bad behaviour    
@@ -114,9 +114,8 @@ for id in id_list:
                     'card_id': entry['bad_behaviour']['card']['id']
                 }
                 # cursor.execute('''
-                #         INSERT INTO events_badbehaviour (event_id, team, team_id, player, player_id,
-                #         card, card_id)
-                #         VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s,%(player_id)s, %(card)s, %(card_id)s)
+                #         INSERT INTO events_badbehaviour (event_id, card, card_id)
+                #         VALUES (%(uid)s, %(card)s, %(card_id)s)
                 #     ''', secondary_event_data)
 
             # ball receipt            
@@ -130,13 +129,13 @@ for id in id_list:
                     # 'player': entry['player']['name'],
                     # 'player_id': entry['player']['id'],
                     'incomplete': True if entry.get('ball_receipt') else False
+                    # to do 
                     # 'outcome': entry.get('ball_receipt')['outcome']['name'] if entry.get('ball_receipt') else None,
                     # 'outcome_id': entry.get('ball_receipt')['outcome']['id'] if entry.get('ball_receipt') else None,
                 }
                 # cursor.execute('''
-                #         INSERT INTO events_ballreceipt (event_id, team, team_id, player, player_id,
-                #         incomplete)
-                #         VALUES (%(uid)s, %(team)s, %(team_id)s, %(player)s,%(player_id)s, %(incomplete)s)
+                #         INSERT INTO events_ballreceipt (event_id, incomplete)
+                #         VALUES (%(uid)s, %(incomplete)s)
                 #     ''', secondary_event_data)
                 
             # ball recover    
@@ -148,10 +147,10 @@ for id in id_list:
                     'recovery_failure': True if entry.get('ball_recovery') and 'recovery_failure' in entry.get('ball_recovery') else False,
                     'offensive': True if entry.get('ball_recovery') and 'offensive' in entry.get('ball_recovery') else False,
                 }
-                cursor.execute('''
-                        INSERT INTO events_ballrecover (event_id, recovery_failure, offensive)
-                        VALUES (%(uid)s, %(recovery_failure)s, %(offensive)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_ballrecover (event_id, recovery_failure, offensive)
+                #         VALUES (%(uid)s, %(recovery_failure)s, %(offensive)s)
+                #     ''', secondary_event_data) 
 
             # block
             elif entry['type']['id'] == 6:   
@@ -164,10 +163,10 @@ for id in id_list:
                     'save_block': True if entry.get('block') and 'save_block' in entry.get('block') else False,
                     'counterpress': True if entry.get('block') and 'counterpress' in entry.get('block') else False,
                 }
-                cursor.execute('''
-                        INSERT INTO events_block (event_id, deflection, offensive, save_block, counterpress)
-                        VALUES (%(uid)s, %(deflection)s, %(offensive)s, %(save_block)s, %(counterpress)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_block (event_id, deflection, offensive, save_block, counterpress)
+                #         VALUES (%(uid)s, %(deflection)s, %(offensive)s, %(save_block)s, %(counterpress)s)
+                #     ''', secondary_event_data) 
                 
             # carry 
             elif entry['type']['id'] == 43:
@@ -182,10 +181,10 @@ for id in id_list:
                     'end_loc_x': entry['carry']['end_location'][0],
                     'end_loc_y': entry['carry']['end_location'][1]
                 }
-                cursor.execute('''
-                        INSERT INTO events_carry (event_id, end_loc_x, end_loc_y)
-                        VALUES (%(uid)s, %(end_loc_x)s, %(end_loc_y)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_carry (event_id, end_loc_x, end_loc_y)
+                #         VALUES (%(uid)s, %(end_loc_x)s, %(end_loc_y)s)
+                #     ''', secondary_event_data) 
 
             # clearance
             elif entry['type']['id'] == 9:
@@ -203,10 +202,10 @@ for id in id_list:
                     'right_foot' : True if entry['clearance'].get('right_foot') else False, 
                     'other' : True if entry['clearance'].get('other') else False, 
                 }
-                cursor.execute('''
-                        INSERT INTO events_clearance (event_id, aerial_won, head, left_foot, right_foot)
-                        VALUES (%(uid)s, %(aerial_won)s, %(head)s, %(left_foot)s, %(right_foot)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_clearance (event_id, aerial_won, head, left_foot, right_foot)
+                #         VALUES (%(uid)s, %(aerial_won)s, %(head)s, %(left_foot)s, %(right_foot)s)
+                #     ''', secondary_event_data) 
             # Duel 
             elif entry['type']['id'] == 4:
                 # print(id)
@@ -222,10 +221,10 @@ for id in id_list:
                     'outcome': entry['duel']['outcome']['name'] if entry.get('duel').get('outcome') else None,
                     'outcome_id': entry['duel']['outcome']['id'] if entry.get('duel').get('outcome') else None
                 }
-                cursor.execute('''
-                        INSERT INTO events_duel (event_id, type, type_id, outcome, outcome_id)
-                        VALUES (%(uid)s, %(type)s, %(type_id)s, %(outcome)s, %(outcome_id)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_duel (event_id, type, type_id, outcome, outcome_id)
+                #         VALUES (%(uid)s, %(type)s, %(type_id)s, %(outcome)s, %(outcome_id)s)
+                #     ''', secondary_event_data) 
 
             # Foul Committed  22
             elif entry['type']['id'] == 22:
@@ -246,10 +245,10 @@ for id in id_list:
                     'card': entry['foul_committed']['card']['name'] if entry.get('foul_committed') and entry.get('foul_committed').get('card') else None,
                     'card_id': entry['foul_committed']['card']['id'] if entry.get('foul_committed') and entry.get('foul_committed').get('card') else None,
                 }
-                cursor.execute('''
-                        INSERT INTO events_foulcommitted (event_id, counterpress, offensive, advantage, penalty, type, type_id, card, card_id)
-                        VALUES (%(uid)s, %(counterpress)s, %(offensive)s, %(advantage)s,  %(penalty)s, %(type)s,  %(type_id)s, %(card)s, %(card_id)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_foulcommitted (event_id, counterpress, offensive, advantage, penalty, type, type_id, card, card_id)
+                #         VALUES (%(uid)s, %(counterpress)s, %(offensive)s, %(advantage)s,  %(penalty)s, %(type)s,  %(type_id)s, %(card)s, %(card_id)s)
+                #     ''', secondary_event_data) 
             
             # Foul Won  21
             elif entry['type']['id'] == 21:
@@ -266,10 +265,10 @@ for id in id_list:
                     'penalty': True if entry.get('foul_won') and 'penalty' in entry.get('foul_won') else False
                 }
 
-                cursor.execute('''
-                        INSERT INTO events_foulwon (event_id, defensive, advantage, penalty)
-                        VALUES (%(uid)s, %(defensive)s,  %(advantage)s, %(penalty)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_foulwon (event_id, defensive, advantage, penalty)
+                #         VALUES (%(uid)s, %(defensive)s,  %(advantage)s, %(penalty)s)
+                #     ''', secondary_event_data) 
             
             # Goalkeeper  23
             elif entry['type']['id'] == 23:
@@ -298,10 +297,10 @@ for id in id_list:
                     'outcome_id': entry['goalkeeper']['outcome']['id'] if entry['goalkeeper'].get('outcome') else None,
                 }
 
-                cursor.execute('''
-                        INSERT INTO events_goalkeeper (event_id, position, position_id, technique, technique_id, body_part, body_part_id, type, type_id, outcome, outcome_id)
-                        VALUES (%(uid)s, %(position)s, %(position_id)s, %(technique)s, %(technique_id)s, %(body_part)s, %(body_part_id)s, %(type)s, %(type_id)s, %(outcome)s, %(outcome_id)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_goalkeeper (event_id, position, position_id, technique, technique_id, body_part, body_part_id, type, type_id, outcome, outcome_id)
+                #         VALUES (%(uid)s, %(position)s, %(position_id)s, %(technique)s, %(technique_id)s, %(body_part)s, %(body_part_id)s, %(type)s, %(type_id)s, %(outcome)s, %(outcome_id)s)
+                #     ''', secondary_event_data) 
 
             # Half End  34
             elif entry['type']['id'] == 34:
@@ -313,10 +312,10 @@ for id in id_list:
                     'early_video_end': True if entry.get('half_end') and 'early_video_end' in entry.get('half_end') else False,
                 }
                 # early_video_end and early_video_end all false???
-                cursor.execute('''
-                        INSERT INTO events_halfend (event_id, match_suspended, early_video_end)
-                        VALUES (%(uid)s, %(match_suspended)s,  %(early_video_end)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_halfend (event_id, match_suspended, early_video_end)
+                #         VALUES (%(uid)s, %(match_suspended)s,  %(early_video_end)s)
+                #     ''', secondary_event_data) 
 
             # Half Start  18
             elif entry['type']['id'] == 18:
@@ -399,17 +398,17 @@ for id in id_list:
                     # 'player_id': entry['player']['id'],
                     'permanent': True if entry.get('player_off') and 'permanent' in entry.get('player_off') else False,
                 }
-                # cursor.execute('''
-                #         INSERT INTO events_playeroff (event_id, permanent)
-                #         VALUES (%(uid)s, %(permanent)s)
-                #     ''', secondary_event_data) 
+                cursor.execute('''
+                        INSERT INTO events_playeroff (event_id, permanent)
+                        VALUES (%(uid)s, %(permanent)s)
+                    ''', secondary_event_data) 
 
             # nothing special should add more attributes to the main event ???
             # player on  26
             # shield 28
 
 
-            # pressure 17  counterpress all false
+            # pressure 17  counterpress all false ???
             elif entry['type']['id'] == 17:
                 # print(id)
                 # print(entry['id'])
@@ -421,10 +420,10 @@ for id in id_list:
                     # 'player_id': entry['player']['id'],
                     'counterpress': True if entry.get('pressure') and 'counterpress' in entry.get('pressure') else False,
                 }
-                # cursor.execute('''
-                #         INSERT INTO events_pressure (event_id, counterpress)
-                #         VALUES (%(uid)s, %(counterpress)s)
-                #     ''', secondary_event_data) 
+                cursor.execute('''
+                        INSERT INTO events_pressure (event_id, counterpress)
+                        VALUES (%(uid)s, %(counterpress)s)
+                    ''', secondary_event_data) 
                 
             # substitution 19
             elif entry['type']['id'] == 19:
@@ -441,10 +440,10 @@ for id in id_list:
                     'outcome': entry['substitution']['outcome']['name'] if entry['substitution'].get('outcome') else None,
                     'outcome_id': entry['substitution']['outcome']['id'] if entry['substitution'].get('outcome') else None,
                 }
-                # cursor.execute('''
-                #         INSERT INTO events_substitution (event_id, replacement, replacement_id, outcome, outcome_id)
-                #         VALUES (%(uid)s, %(replacement)s, %(replacement_id)s, %(outcome)s, %(outcome_id)s)
-                #     ''', secondary_event_data) 
+                cursor.execute('''
+                        INSERT INTO events_substitution (event_id, replacement, replacement_id, outcome, outcome_id)
+                        VALUES (%(uid)s, %(replacement)s, %(replacement_id)s, %(outcome)s, %(outcome_id)s)
+                    ''', secondary_event_data) 
 
             # pass 
             elif entry['type']['id'] == 30:
@@ -468,11 +467,11 @@ for id in id_list:
                     'outcome_id': entry['pass']['outcome']['id'] if entry['pass'].get('outcome') else None,
                 }
 
-                # cursor.execute('''
-                #         INSERT INTO events_pass (event_id, recipient, recipient_id, type, type_id, technique, technique_id, end_loc_x,
-                #         end_loc_y, outcome_id, outcome)
-                #         VALUES (%(uid)s, %(recipient)s, %(recipient_id)s, %(type)s, %(type_id)s, %(technique)s, %(technique_id)s, %(end_loc_x)s, %(end_loc_y)s, %(outcome_id)s, %(outcome)s)
-                #     ''', secondary_event_data)            
+                cursor.execute('''
+                        INSERT INTO events_pass (event_id, recipient, recipient_id, type, type_id, technique, technique_id, end_loc_x,
+                        end_loc_y, outcome_id, outcome)
+                        VALUES (%(uid)s, %(recipient)s, %(recipient_id)s, %(type)s, %(type_id)s, %(technique)s, %(technique_id)s, %(end_loc_x)s, %(end_loc_y)s, %(outcome_id)s, %(outcome)s)
+                    ''', secondary_event_data)            
             
             # shot
             elif entry['type']['id'] == 16:
@@ -489,10 +488,10 @@ for id in id_list:
                     'first_time': entry['shot']['first_time'] if entry['shot'].get('first_time') else False
                 }
 
-                # cursor.execute('''
-                #         INSERT INTO events_shot (event_id, xg_score, first_time)
-                #         VALUES (%(uid)s, %(xg_score)s, %(first_time)s)
-                #     ''', secondary_event_data) 
+                cursor.execute('''
+                        INSERT INTO events_shot (event_id, xg_score, first_time)
+                        VALUES (%(uid)s, %(xg_score)s, %(first_time)s)
+                    ''', secondary_event_data) 
 
             # dribble
             elif entry['type']['id'] == 14:
@@ -511,10 +510,10 @@ for id in id_list:
                     'no_touch': True if entry['dribble'].get('no_touch') else False
                 }
 
-                # cursor.execute('''
-                #         INSERT INTO events_dribble (event_id, complete, no_touch, nutmeg, overrun)
-                #         VALUES (%(uid)s, %(complete)s, %(no_touch)s, %(nutmeg)s, %(overrun)s)
-                #     ''', secondary_event_data) 
+                cursor.execute('''
+                        INSERT INTO events_dribble (event_id, complete, no_touch, nutmeg, overrun)
+                        VALUES (%(uid)s, %(complete)s, %(no_touch)s, %(nutmeg)s, %(overrun)s)
+                    ''', secondary_event_data) 
         
 
             # dribbled_pass
@@ -535,10 +534,10 @@ for id in id_list:
                 # if (secondary_event_data['counterpress']):
                 #     print(secondary_event_data)
 
-                # cursor.execute('''
-                #         INSERT INTO events_dribbledpass (event_id, counterpress)
-                #         VALUES (%(uid)s, %(counterpress)s)
-                #     ''', secondary_event_data) 
+                cursor.execute('''
+                        INSERT INTO events_dribbledpass (event_id, counterpress)
+                        VALUES (%(uid)s, %(counterpress)s)
+                    ''', secondary_event_data) 
 
 print(filecount)
 

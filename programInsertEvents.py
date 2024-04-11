@@ -128,15 +128,15 @@ for id in id_list:
                     # 'team' : entry['team']['name'],
                     # 'player': entry['player']['name'],
                     # 'player_id': entry['player']['id'],
-                    'incomplete': True if entry.get('ball_receipt') else False
+                    # 'incomplete': True if entry.get('ball_receipt') else False
                     # to do 
-                    # 'outcome': entry.get('ball_receipt')['outcome']['name'] if entry.get('ball_receipt') else None,
-                    # 'outcome_id': entry.get('ball_receipt')['outcome']['id'] if entry.get('ball_receipt') else None,
+                    'outcome': entry.get('ball_receipt')['outcome']['name'] if entry.get('ball_receipt') else None,
+                    'outcome_id': entry.get('ball_receipt')['outcome']['id'] if entry.get('ball_receipt') else None,
                 }
-                # cursor.execute('''
-                #         INSERT INTO events_ballreceipt (event_id, incomplete)
-                #         VALUES (%(uid)s, %(incomplete)s)
-                #     ''', secondary_event_data)
+                cursor.execute('''
+                        INSERT INTO events_ballreceipt (event_id, outcome, outcome_id)
+                        VALUES (%(uid)s, %(outcome)s, %(outcome_id)s)
+                    ''', secondary_event_data)
                 
             # ball recover    
             elif entry['type']['id'] == 2:   
@@ -398,10 +398,10 @@ for id in id_list:
                     # 'player_id': entry['player']['id'],
                     'permanent': True if entry.get('player_off') and 'permanent' in entry.get('player_off') else False,
                 }
-                cursor.execute('''
-                        INSERT INTO events_playeroff (event_id, permanent)
-                        VALUES (%(uid)s, %(permanent)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_playeroff (event_id, permanent)
+                #         VALUES (%(uid)s, %(permanent)s)
+                #     ''', secondary_event_data) 
 
             # nothing special should add more attributes to the main event ???
             # player on  26
@@ -420,10 +420,10 @@ for id in id_list:
                     # 'player_id': entry['player']['id'],
                     'counterpress': True if entry.get('pressure') and 'counterpress' in entry.get('pressure') else False,
                 }
-                cursor.execute('''
-                        INSERT INTO events_pressure (event_id, counterpress)
-                        VALUES (%(uid)s, %(counterpress)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_pressure (event_id, counterpress)
+                #         VALUES (%(uid)s, %(counterpress)s)
+                #     ''', secondary_event_data) 
                 
             # substitution 19
             elif entry['type']['id'] == 19:
@@ -440,10 +440,10 @@ for id in id_list:
                     'outcome': entry['substitution']['outcome']['name'] if entry['substitution'].get('outcome') else None,
                     'outcome_id': entry['substitution']['outcome']['id'] if entry['substitution'].get('outcome') else None,
                 }
-                cursor.execute('''
-                        INSERT INTO events_substitution (event_id, replacement, replacement_id, outcome, outcome_id)
-                        VALUES (%(uid)s, %(replacement)s, %(replacement_id)s, %(outcome)s, %(outcome_id)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_substitution (event_id, replacement, replacement_id, outcome, outcome_id)
+                #         VALUES (%(uid)s, %(replacement)s, %(replacement_id)s, %(outcome)s, %(outcome_id)s)
+                #     ''', secondary_event_data) 
 
             # pass 
             elif entry['type']['id'] == 30:
@@ -467,11 +467,11 @@ for id in id_list:
                     'outcome_id': entry['pass']['outcome']['id'] if entry['pass'].get('outcome') else None,
                 }
 
-                cursor.execute('''
-                        INSERT INTO events_pass (event_id, recipient, recipient_id, type, type_id, technique, technique_id, end_loc_x,
-                        end_loc_y, outcome_id, outcome)
-                        VALUES (%(uid)s, %(recipient)s, %(recipient_id)s, %(type)s, %(type_id)s, %(technique)s, %(technique_id)s, %(end_loc_x)s, %(end_loc_y)s, %(outcome_id)s, %(outcome)s)
-                    ''', secondary_event_data)            
+                # cursor.execute('''
+                #         INSERT INTO events_pass (event_id, recipient, recipient_id, type, type_id, technique, technique_id, end_loc_x,
+                #         end_loc_y, outcome_id, outcome)
+                #         VALUES (%(uid)s, %(recipient)s, %(recipient_id)s, %(type)s, %(type_id)s, %(technique)s, %(technique_id)s, %(end_loc_x)s, %(end_loc_y)s, %(outcome_id)s, %(outcome)s)
+                #     ''', secondary_event_data)            
             
             # shot
             elif entry['type']['id'] == 16:
@@ -488,10 +488,10 @@ for id in id_list:
                     'first_time': entry['shot']['first_time'] if entry['shot'].get('first_time') else False
                 }
 
-                cursor.execute('''
-                        INSERT INTO events_shot (event_id, xg_score, first_time)
-                        VALUES (%(uid)s, %(xg_score)s, %(first_time)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_shot (event_id, xg_score, first_time)
+                #         VALUES (%(uid)s, %(xg_score)s, %(first_time)s)
+                #     ''', secondary_event_data) 
 
             # dribble
             elif entry['type']['id'] == 14:
@@ -510,10 +510,10 @@ for id in id_list:
                     'no_touch': True if entry['dribble'].get('no_touch') else False
                 }
 
-                cursor.execute('''
-                        INSERT INTO events_dribble (event_id, complete, no_touch, nutmeg, overrun)
-                        VALUES (%(uid)s, %(complete)s, %(no_touch)s, %(nutmeg)s, %(overrun)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_dribble (event_id, complete, no_touch, nutmeg, overrun)
+                #         VALUES (%(uid)s, %(complete)s, %(no_touch)s, %(nutmeg)s, %(overrun)s)
+                #     ''', secondary_event_data) 
         
 
             # dribbled_pass
@@ -534,10 +534,10 @@ for id in id_list:
                 # if (secondary_event_data['counterpress']):
                 #     print(secondary_event_data)
 
-                cursor.execute('''
-                        INSERT INTO events_dribbledpass (event_id, counterpress)
-                        VALUES (%(uid)s, %(counterpress)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_dribbledpass (event_id, counterpress)
+                #         VALUES (%(uid)s, %(counterpress)s)
+                #     ''', secondary_event_data) 
 
 print(filecount)
 

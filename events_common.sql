@@ -11,5 +11,16 @@ CREATE TABLE IF NOT EXISTS events (
 	second VARCHAR(3),
 	type_id SMALLINT,
 	type_name VARCHAR(20),
-	match_id VARCHAR(10)
-)
+	match_id VARCHAR(10),
+	possession SMALLINT,
+	possession_team VARCHAR(40),
+	possession_team_id SMALLINT,
+	play_pattern VARCHAR(40),
+	play_pattern_id SMALLINT,
+	position VARCHAR(40),
+	position_id SMALLINT,
+	loc_x numeric(5,2),
+	loc_y numeric(5,2),
+	duration NUMERIC(12,9),
+	underpressure BOOLEAN
+);

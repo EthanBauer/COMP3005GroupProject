@@ -72,13 +72,28 @@ for id in id_list:
                         'second': entry['second'],
                         'type_id': entry['type']['id'],
                         'type_name': entry['type']['name'],
-                        'match_id': id
-                    }
+                        'match_id': id,
+                        'possession': entry['possession'],
+                        'possession_team': entry['possession_team']['name'],
+                        'possession_team_id' : entry['possession_team']['id'],
+                        'play_pattern' :entry['play_pattern']['name'],
+                        'play_pattern_id' :entry['play_pattern']['id'],
+                        'position' :entry['position']['name'] if entry.get('position') else None,
+                        'position_id' :entry['position']['id'] if entry.get('position') else None,
+                        'loc_x' :entry['location'][0] if entry.get('location') else None,
+                        'loc_y' :entry['location'][1] if entry.get('location') else None,
+                        'duration' :entry.get('duration', None),
+                        'underpressure':entry.get('under_pressure', False)
+                        # tactics 
+                    }                
             
                 # cursor.execute('''
                 #             INSERT INTO events (event_id, team, team_id, player, player_id, index, period, timestamp, minute,
-                #             second, type_id, type_name, match_id)
-                #             VALUES (%(id)s, %(team)s, %(team_id)s, %(player)s,%(player_id)s, %(index)s, %(period)s, %(timestamp)s,%(minute)s, %(second)s, %(type_id)s,%(type_name)s, %(match_id)s)
+                #             second, type_id, type_name, match_id, possession, possession_team, possession_team_id, play_pattern, 
+                #             play_pattern_id, position, position_id, loc_x, loc_y, duration, underpressure)
+                #             VALUES (%(id)s, %(team)s, %(team_id)s, %(player)s,%(player_id)s, %(index)s, %(period)s, %(timestamp)s,
+                #                %(minute)s, %(second)s, %(type_id)s,%(type_name)s, %(match_id)s, %(possession)s, %(possession_team)s, %(possession_team_id)s,
+                #                %(play_pattern)s,%(play_pattern_id)s,%(position)s,%(position_id)s,%(loc_x)s,%(loc_y)s,%(duration)s,%(underpressure)s)
                 #         ''', event_data)
            
 

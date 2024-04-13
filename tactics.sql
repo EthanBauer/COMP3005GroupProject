@@ -1,5 +1,5 @@
-CREATE TABLE IF NOT EXIST tactics (
-    id SERIAL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS tactics (
+    event_id VARCHAR(50) PRIMARY KEY,
     formation INT,
     player_id INT[],
     player_name TEXT[],

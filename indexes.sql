@@ -1,4 +1,6 @@
 CREATE INDEX IF NOT EXISTS events_shot_index ON events_shot (event_id);
+CREATE INDEX IF NOT EXISTS events_shot_index2 ON events_shot (technique_id);
+
 CREATE INDEX IF NOT EXISTS events_pass_index ON events_pass (event_id);
 CREATE INDEX IF NOT EXISTS events_pass_index2 ON events_pass (recipient_id);
 CREATE INDEX IF NOT EXISTS events_pass_index3 ON events_pass (recipient);
@@ -21,3 +23,5 @@ CREATE INDEX IF NOT EXISTS matches_index4 ON matches (match_id);
 
 CREATE INDEX IF NOT EXISTS players_index ON players (player_id);
 CREATE INDEX IF NOT EXISTS lineups_index ON lineups (match_id, player_id, team_id);
+
+CREATE INDEX IF NOT EXISTS tactics_index ON tactics (event_id);

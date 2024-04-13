@@ -3,5 +3,5 @@ CREATE TABLE events_startingxi (
     match_id INTEGER,
     possession INTEGER,
     possession_team_id INTEGER,
-    possession_team_name VARCHAR(100)
+    possession_team_label VARCHAR(100)
 );

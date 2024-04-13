@@ -67,16 +67,20 @@ for id in id_list:
 
                 secondary_event_data = {
                     'uid': entry['id'],
-                    # 'team_id' : entry['team']['id'],
-                    # 'team' : entry['team']['name'],
-                    # 'player': entry['player']['name'],
-                    # 'player_id': entry['player']['id'],
                     'xg_score': entry['shot']['statsbomb_xg'],
                     'first_time': entry['shot']['first_time'] if entry['shot'].get('first_time') else False,
-                    'end_location': entry['shot']['end_location'] if entry['shot'].get('end_location') else None
+                    'end_location': entry['shot']['end_location'] if entry['shot'].get('end_location') else None,
+                    'technique_id': entry['shot']['technique']['id'] if entry['shot'].get('technique') else None,
+                    'technique_label': entry['shot']['technique']['name'] if entry['shot'].get('technique') else None,
+                    'body_part_id': entry['shot']['body_part']['id'] if entry['shot'].get('body_part') else None,
+                    'body_part_label': entry['shot']['body_part']['name'] if entry['shot'].get('body_part') else None,
+                    'type_id': entry['shot']['type']['id'] if entry['shot'].get('type') else None,
+                    'type_label': entry['shot']['type']['name'] if entry['shot'].get('type') else None,
+                    'outcome_id': entry['shot']['outcome']['id'] if entry['shot'].get('outcome') else None,
+                    'outcome_label': entry['shot']['outcome']['name'] if entry['shot'].get('outcome') else None
                 }
 
-                cursor.execute('''
-                        INSERT INTO events_shot (event_id, xg_score, first_time, end_location)
-                        VALUES (%(uid)s, %(xg_score)s, %(first_time)s, %(end_location)s)
-                    ''', secondary_event_data) 
+                # cursor.execute('''
+                #         INSERT INTO events_shot (event_id, xg_score, first_time, end_location, technique_id, technique_label, body_part_id, body_part_label, type_id, type_label, outcome_id, outcome_label)
+                #         VALUES (%(uid)s, %(xg_score)s, %(first_time)s, %(end_location)s, %(technique_id)s, %(technique_label)s, %(body_part_id)s, %(body_part_label)s, %(type_id)s, %(type_label)s, %(outcome_id)s, %(outcome_label)s)
+                #     ''', secondary_event_data) 

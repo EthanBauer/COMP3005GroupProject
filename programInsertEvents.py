@@ -393,7 +393,7 @@ for id in id_list:
                     }
                 # cursor.execute('''
                 #                INSERT INTO events_startingxi (event_id, match_id, possession, possession_team_id, possession_team_label)
-                #                VALUES (%(event_id)s, %(match_id)s, %(possession)s, %(possession_team_id)s, %(possession_team_label)s, %(technique_label)s)
+                #                VALUES (%(event_id)s, %(match_id)s, %(possession)s, %(possession_team_id)s, %(possession_team_label)s)
                 #                ''', startingxi_data) 
 
             # Miscontrol  38

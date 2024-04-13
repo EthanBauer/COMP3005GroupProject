@@ -172,7 +172,6 @@ def Q_1(cursor, conn, execution_time):
 FROM events_shot 
 JOIN events ON events_shot.event_id = events.event_id
 JOIN matches ON events.match_id = matches.match_id
--- WHERE season = '2020/2021' AND competition = 'La Liga'
 WHERE season_id = 90 AND competition_id = 11
 GROUP BY player, player_id
 HAVING AVG(xg_score) > 0
@@ -199,7 +198,6 @@ def Q_2(cursor, conn, execution_time):
 FROM events_shot
 JOIN events ON events_shot.event_id = events.event_id
 JOIN matches ON events.match_id = matches.match_id
--- WHERE season = '2020/2021' AND competition = 'La Liga'
 WHERE season_id = 90 AND competition_id = 11
 GROUP BY player, player_id
 HAVING COUNT(*) >= 1
@@ -326,8 +324,7 @@ def Q_7(cursor, conn, execution_time):
 FROM events_pass 
 JOIN events ON events_pass.event_id = events.event_id
 JOIN matches ON events.match_id = matches.match_id
-WHERE season_id = 90 AND competition_id = '11' AND technique_id = 108
--- WHERE season = '2020/2021' AND competition_id = 'La Liga' AND technique_id = 108
+WHERE season_id = 90 AND competition_id = 11 AND technique_id = 108
 GROUP BY player, player_id
 HAVING COUNT(events_pass.event_id) > 0
 ORDER BY through_ball_count DESC;"""
@@ -353,7 +350,6 @@ FROM events_pass
 JOIN events ON events_pass.event_id = events.event_id
 JOIN matches ON events.match_id = matches.match_id
 WHERE season_id = 90 AND competition_id = 11 AND technique_id = 108
--- GROUP BY team， team_id
 GROUP BY team
 HAVING COUNT(events_pass.event_id) > 0
 ORDER BY through_ball_count DESC;
@@ -405,12 +401,10 @@ def Q_10(cursor, conn, execution_time):
 FROM events_dribbledpass
 JOIN events ON events_dribbledpass.event_id = events.event_id
 JOIN matches ON events.match_id = matches.match_id
--- WHERE season = '2020/2021' AND competition = 'La Liga'
 WHERE season_id = 90 AND competition_id = 11
 GROUP BY player, player_id
 HAVING COUNT(events_dribbledpass.event_id) > 0
--- ORDER BY passed_dribbles ASC;
-ORDER BY passed_dribbles ASC, player ASC;"""
+ORDER BY passed_dribbles ASC;"""
 
     #==========================================================================
 

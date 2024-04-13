@@ -21,6 +21,3 @@ CREATE INDEX IF NOT EXISTS matches_index4 ON matches (match_id);
 
 CREATE INDEX IF NOT EXISTS players_index ON players (player_id);
 CREATE INDEX IF NOT EXISTS lineups_index ON lineups (match_id, player_id, team_id);
-
-CREATE INDEX IF NOT EXISTS competitions_index1 ON competitions(competition_id);
-CREATE INDEX IF NOT EXISTS competitions_index2 ON competitions(season_id);

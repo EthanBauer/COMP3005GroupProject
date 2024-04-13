@@ -382,6 +382,20 @@ for id in id_list:
                 #         VALUES (%(uid)s, %(outcome)s, %(outcome_id)s)
                 #     ''', secondary_event_data) 
 
+            # Starting XI 35
+            elif entry['type']['id'] == 35:
+                startingxi_data = {
+                    'event_id': entry['id'],
+                    'match_id': id,
+                    'possession': entry['possession'],
+                    'possession_team_id': entry['possession_team']['id'],
+                    'poessession_team_label': entry['possession_team']['name']
+                    }
+                # cursor.execute('''
+                #                INSERT INTO events_startingxi (event_id, match_id, possession, possession_team_id, possession_team_label)
+                #                VALUES (%(event_id)s, %(match_id)s, %(possession)s, %(possession_team_id)s, %(possession_team_label)s, %(technique_label)s)
+                #                ''', startingxi_data) 
+
             # Miscontrol  38
             elif entry['type']['id'] == 38:
                 # print(id)

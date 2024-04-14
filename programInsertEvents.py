@@ -8,7 +8,7 @@ from pathlib import Path
 # Define connection parameters
 dbname = 'projecttest'
 user = 'postgres'
-password = 'postgres'
+password = '1234'
 host = '127.0.0.1'  
 port = '5432'  
 
@@ -389,7 +389,7 @@ for id in id_list:
                     'match_id': id,
                     'possession': entry['possession'],
                     'possession_team_id': entry['possession_team']['id'],
-                    'poessession_team_label': entry['possession_team']['name']
+                    'possession_team_label': entry['possession_team']['name']
                     }
                 # cursor.execute('''
                 #                INSERT INTO events_startingxi (event_id, match_id, possession, possession_team_id, possession_team_label)
